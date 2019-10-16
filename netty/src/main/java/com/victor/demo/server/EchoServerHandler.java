@@ -13,7 +13,8 @@ public class EchoServerHandler extends ChannelDuplexHandler {
 //        ctx.write("OK");
         byte[] bytes = {'O', 'K'};
         ByteBuf buf = Unpooled.copiedBuffer(bytes);
-        ctx.channel().writeAndFlush(buf).syncUninterruptibly();
+        //send as sync not async
+        ctx.channel().writeAndFlush(buf);
     }
 
 

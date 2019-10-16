@@ -1,5 +1,5 @@
-*.project
-*.idea
+.project
+.idea
 *.iml
 
 # Compiled class file

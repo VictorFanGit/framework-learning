@@ -21,17 +21,17 @@ public class NettyClient {
 
         try {
             Bootstrap b = new Bootstrap();
-            b.group(group)
-                    .channel(NioSocketChannel.class)
-                    .option(ChannelOption.TCP_NODELAY, true)
-                    .handler(new ChannelInitializer<SocketChannel>() {
-                        @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline p = ch.pipeline();
-                            p.addLast(new LoggingHandler(LogLevel.INFO));
-                            p.addLast(new EchoClientHandler());
-                        }
-                    });
+            b.group(group);
+            b.channel(NioSocketChannel.class);
+            b.option(ChannelOption.SO_KEEPALIVE, true);
+            b.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel ch) throws Exception {
+                    ChannelPipeline p = ch.pipeline();
+//                    p.addLast(new LoggingHandler(LogLevel.INFO));
+                    p.addLast(new EchoClientHandler());
+                }
+            });
 
             //start the client.
             ChannelFuture f = b.connect(HOST, PORT).sync();
