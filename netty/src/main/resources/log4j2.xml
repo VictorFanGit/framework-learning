@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn" monitorInterval="30">
+    <properties>
+        <property name="LOG_HOME">D:\\Temp\\log</property>
+    </properties>
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd-'T'HH:mm:ss.SSSZ} | %X{host} | %X{pid} | %-15t | %-5p | %c{1} | %m%n"/>
+        </Console>
+
+        <RollingRandomAccessFile name="trace" fileName="${LOG_HOME}\test_trace0_0.log" filePattern="${LOG_HOME}\test_trace0_%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd-'T'HH:mm:ss.SSSZ} | %X{host} | %X{pid} | %-15t | %-5p | %c{1} | %m%n" />
+            <ThresholdFilter level="trace" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="49" />
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="info" fileName="${LOG_HOME}\test_activity0_0.log" filePattern="${LOG_HOME}\test_activity0_%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd-'T'HH:mm:ss.SSSZ} | %X{host} | %X{pid} | %-15t | %-5p | %c{1} | %m%n" />
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="49" />
+        </RollingRandomAccessFile>
+        <RollingRandomAccessFile name="error" fileName="${LOG_HOME}\test_error0_0.log" filePattern="${LOG_HOME}\test_error0_%i.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd-'T'HH:mm:ss.SSSZ} | %X{host} | %X{pid} | %-15t | %-5p | %c{1} | %m%n" />
+            <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="10 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="49" />
+        </RollingRandomAccessFile>
+    </appenders>
+
+    <loggers>
+        <root level="info" includeLocation="true">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="trace"/>
+            <appender-ref ref="info"/>
+            <appender-ref ref="error"/>
+        </root>
+    </loggers>
+</configuration>

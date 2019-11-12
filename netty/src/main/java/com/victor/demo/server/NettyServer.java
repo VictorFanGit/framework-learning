@@ -31,7 +31,10 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new MyServerHandler());
+                            ch.pipeline().addLast("decoder",new ToIntegerDecoder());
+                            ch.pipeline().addLast("decoder2", new IntegerToStringDecoder());
+                            ch.pipeline().addLast("encoder", new IntegerToByteEncoder());
+                            ch.pipeline().addLast("myServerHandler", new MyServerHandler());
                         }
                     });
 

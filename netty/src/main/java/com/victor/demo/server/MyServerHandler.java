@@ -1,9 +1,9 @@
 package com.victor.demo.server;
 
 import com.victor.demo.common.ActiveChannelCache;
-import io.netty.buffer.ByteBuf;
-import io.netty.channel.*;
-import io.netty.util.ReferenceCountUtil;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 
 @ChannelHandler.Sharable
 public class MyServerHandler extends ChannelInboundHandlerAdapter {
@@ -39,13 +39,20 @@ public class MyServerHandler extends ChannelInboundHandlerAdapter {
 
         //respond the received data
 //        ctx.writeAndFlush(msg);
+        if (msg instanceof Integer) {
+            System.out.println("received integer: " + msg);
+        } else if (msg instanceof String) {
+            System.out.println("received string: " + msg);
+        }
 
-        ReferenceCountUtil.release(msg);
+        Integer data = 2;
+        ctx.writeAndFlush(data);
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
+        System.out.println("Exception occurred in handler.");
         ctx.close();
     }
 }
