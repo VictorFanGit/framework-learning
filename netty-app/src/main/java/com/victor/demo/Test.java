@@ -1,5 +1,6 @@
 package com.victor.demo;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -9,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 public class Test {
     public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
         /*List<String> list = new ArrayList<>(Arrays.asList("a","b","c"));
         list.add("aa");
         System.out.println(list.size());
@@ -35,7 +37,7 @@ public class Test {
         byte j1 = (byte)(j >> 1);
         System.out.println(j1);*/
 
-        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
+//        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(3);
 
 
     }
