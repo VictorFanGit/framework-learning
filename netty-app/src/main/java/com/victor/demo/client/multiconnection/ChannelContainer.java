@@ -3,10 +3,11 @@ package com.victor.demo.client.multiconnection;
 import io.netty.channel.Channel;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ChannelContainer {
-    //key:the esn of the light
+    //key:id value:channel
     private ConcurrentHashMap<String, Channel> map = new ConcurrentHashMap<>();
 
     public void addChannel(String key, Channel channel) {
@@ -32,6 +33,15 @@ public class ChannelContainer {
             return null;
         }
         return map.get(key);
+    }
+
+    public String getIdByChannel(Channel channel) {
+        for (Map.Entry<String, Channel> entry : map.entrySet()) {
+            if(entry.getValue() == channel) {
+                return entry.getKey();
+            }
+        }
+        return "";
     }
 
     public int getCurrentSize() {

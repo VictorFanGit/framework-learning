@@ -14,5 +14,6 @@ public class APP {
                 new AnnotationConfigApplicationContext(ColorConfiguration.class);
         String[] names = ctx.getBeanDefinitionNames();
         Stream.of(names).forEach(System.out::println);
+
     }
 }

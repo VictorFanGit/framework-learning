@@ -1,12 +1,11 @@
 package com.victor.demo;
 
-import com.victor.demo.common.SendTaskManager;
 import com.victor.demo.server.NettyServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Main {
-    private static final Logger logger = LoggerFactory.getLogger(Main.class);
+public class ServerApp {
+    private static final Logger logger = LoggerFactory.getLogger(ServerApp.class);
 
     public static void main(String[] args) {
         logger.info("Start...");

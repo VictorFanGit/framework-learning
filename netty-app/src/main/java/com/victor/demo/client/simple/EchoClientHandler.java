@@ -1,7 +1,6 @@
-package com.victor.demo.client;
+package com.victor.demo.client.simple;
 
 import io.netty.channel.*;
-import io.netty.util.concurrent.EventExecutorGroup;
 
 public class EchoClientHandler extends ChannelDuplexHandler {
 

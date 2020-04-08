@@ -9,18 +9,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PreDestroy;
-import java.nio.ByteOrder;
+import java.util.concurrent.TimeUnit;
 
 
-public class LightTcpClient {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LightTcpClient.class);
+public class MyTcpClient {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MyTcpClient.class);
 
-    private ChannelContainer channelContainer = new ChannelContainer();
-    private Bootstrap bootstrap = new Bootstrap();
+    private static ChannelContainer channelContainer = new ChannelContainer();
+    private static Bootstrap bootstrap = new Bootstrap();
     private EventLoopGroup group = new NioEventLoopGroup();
 
-    public void start() throws Exception {
-
+    public void start() {
         bootstrap.group(group) // 绑定线程池
                 .channel(NioSocketChannel.class) // 指定使用的channel
                 .option(ChannelOption.SO_KEEPALIVE, true)
@@ -29,38 +28,55 @@ public class LightTcpClient {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
 //                        ch.pipeline().addLast(new LoggingHandler(LogLevel.DEBUG));
-                        ch.pipeline().addLast("decoder1", new LightDataDecoder(ByteOrder.BIG_ENDIAN, 10240,
-                                3, 2, 0, 0, true));
-                        ch.pipeline().addLast("lightDataHandler", new LightDataHandler()); // 客户端触发操作
+                        ch.pipeline().addLast("handler1", new MyDataHandler()); // 客户端触发操作
                     }
                 });
     }
 
-    public void createNewConnection(String host, int port, String deviceEsn) throws InterruptedException {
+    public static void createNewConnection(String host, int port, String id) {
         LOGGER.info("Try to connect to tcp server: {} port:{}", host, port);
-        final Channel channel = channelContainer.getChannel(deviceEsn);
+        final Channel channel = channelContainer.getChannel(id);
         //if already connected, return the existed
-        if (channel != null) {
+        if (channel != null && channel.isActive()) {
             LOGGER.info("The device is already connected.");
             LOGGER.info("Current count of active connections is:{} ", channelContainer.getCurrentSize());
             return;
         }
-        ChannelFuture future = bootstrap.connect(host, port).sync();
+        ChannelFuture future = bootstrap.connect(host, port);
         future.addListener((ChannelFutureListener) future1 -> {
             if (future1.isSuccess()) {
                 LOGGER.info("Connect to light controller successfully.");
-                channelContainer.addChannel(deviceEsn, future.channel());
+                channelContainer.addChannel(id, future.channel());
                 LOGGER.info("Current count of active connections is:{} ", channelContainer.getCurrentSize());
             } else {
-                LOGGER.warn("Failed to connect light controller.");
-//                future1.channel().eventLoop().schedule(() -> start(), 20, TimeUnit.SECONDS); //loop to retry
+                LOGGER.warn("Failed to connect light controller, retry it later.");
                 LOGGER.info("Current count of active connections is:{} ", channelContainer.getCurrentSize());
+                MyTcpClient.retryToConnect(future1.channel(), host, port, id);
             }
         });
+    }
+
+    public static void retryToConnect(Channel channel, String host, int port, String id) {
+        if(channel != null) {
+            channel.eventLoop().schedule(()-> MyTcpClient.createNewConnection(host, port, id), 10, TimeUnit.SECONDS);
+        } else {
+            LOGGER.warn("Input channel is null.");
+        }
     }
 
     @PreDestroy
     public void stop() {
         group.shutdownGracefully();
+    }
+
+    static void removeChannel(Channel channel) {
+        channelContainer.removeChannel(channel);
+    }
+
+    static String getIdByChannel(Channel channel) {
+        if(channel != null) {
+            return channelContainer.getIdByChannel(channel);
+        }
+        return "";
     }
 }

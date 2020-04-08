@@ -1,4 +1,4 @@
-package com.victor.demo.client;
+package com.victor.demo.client.simple;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -8,12 +8,10 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 
 public class NettyClient {
 
-    private static final String HOST = "192.168.1.1";
+    private static final String HOST = "localhost";
     private static final int PORT = 7000;
 
     public void initTcpClient() throws InterruptedException {
