@@ -1,0 +1,12 @@
+server:
+  port: 9007
+
+spring:
+  application:
+    name: naos-demo
+  profiles:
+    active: default
+
+nacos:
+  config:
+    server-addr: 120.78.182.183:9006
