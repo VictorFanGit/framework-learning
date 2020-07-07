@@ -10,3 +10,8 @@ spring:
 nacos:
   config:
     server-addr: 120.78.182.183:9006
+
+#logging:
+#  level:
+#    root: info
+#    com.victor.nacosdemo.controller: debug

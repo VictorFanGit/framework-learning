@@ -34,6 +34,7 @@ public class HelloController {
         sb.append("example").append(WORD_SEPARATOR);
         sb.append("DEFAULT_GROUP").append(WORD_SEPARATOR);
         String md5 = MD5.getInstance().getMD5String("useLocalCache=true");
+        System.out.println(md5);
         sb.append(md5).append(LINE_SEPARATOR);
 
 

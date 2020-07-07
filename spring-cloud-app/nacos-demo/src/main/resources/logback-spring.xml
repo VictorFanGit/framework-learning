@@ -65,8 +65,8 @@
         <appender-ref ref="fileErrorLog"/>
     </root>
 
-    <logger name="com.victor.commonapp.service" level="trace" additivity="true">
-        <appender-ref ref="fileTraceLog"/>
+    <logger name="com.victor.nacosdemo.controller" level="trace" additivity="false">
+        <appender-ref ref="consoleLog"/>
     </logger>
 
 </configuration>

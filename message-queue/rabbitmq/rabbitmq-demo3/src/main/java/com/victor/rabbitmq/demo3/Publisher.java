@@ -14,10 +14,26 @@ public class Publisher {
     private ConnectionFactory factory = new ConnectionFactory();
     private Connection connection;
     private Channel channel;
+    private volatile int counter = 0;
+
+    public int getCounter() {
+        return counter;
+    }
 
     public static void main(String[] args) {
         System.out.println("===sender===");
         Publisher publisher = new Publisher();
+        new Thread(() -> {
+            while (true) {
+                System.out.println(publisher.getCounter());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }).start();
         publisher.connectToServer();
         publisher.sendData();
 
@@ -46,7 +62,6 @@ public class Publisher {
     private void sendData() {
         System.out.println("Start to send:" + System.currentTimeMillis());
         try {
-            int counter = 0;
             while (true) {
                 String message = "counter:" + counter;
                 channel.basicPublish("logs", "", null, message.getBytes(StandardCharsets.UTF_8));

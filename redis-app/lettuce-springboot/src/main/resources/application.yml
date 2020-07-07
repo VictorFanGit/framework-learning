@@ -1,0 +1,20 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: jedis-app
+  profiles:
+    active: default
+
+  redis:
+    host: 120.78.182.183
+    port: 9079
+    password:
+    database: 0
+    lettuce:
+      pool:
+        max-idle: 6
+        max-active: 8
+        max-wait: 100
+        min-idle: 0
