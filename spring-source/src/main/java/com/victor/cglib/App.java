@@ -7,7 +7,7 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 
-public class CglibTest {
+public class App {
     public static void main(String[] args) {
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(Student.class);
@@ -16,7 +16,7 @@ public class CglibTest {
             @Override
             public Object intercept(Object o, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
                 System.out.println("original method name: " + method.getName());
-                System.out.println("my name is " + (String) methodProxy.invokeSuper(o, args));
+                System.out.println("my name is " + methodProxy.invokeSuper(o, objects));
                 System.out.println("invoke end");
                 return null;
             }

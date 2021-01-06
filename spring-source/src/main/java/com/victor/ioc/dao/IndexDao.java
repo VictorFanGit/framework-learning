@@ -1,4 +1,4 @@
-package com.victor.dao;
+package com.victor.ioc.dao;
 
 
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.victor.commonapp.config;
+package com.victor.mybatis.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +15,7 @@ public class SwaggerConfig {
 	@Bean
 	public Docket swaggerSpringMvcPlugin() {
 		return new Docket(DocumentationType.SWAGGER_2).pathMapping("/").select()
-				.apis(RequestHandlerSelectors.basePackage("com.victor.commonapp"))
+				.apis(RequestHandlerSelectors.basePackage("com.victor.mybatis.demo.controller"))
 				.paths(PathSelectors.any()).build().apiInfo(new ApiInfoBuilder().title("Swagger")
 						.description("swagger for spring boot").version("9.0").build());
 	}

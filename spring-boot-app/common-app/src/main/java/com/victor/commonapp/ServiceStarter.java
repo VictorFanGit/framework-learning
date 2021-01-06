@@ -13,7 +13,10 @@ public class ServiceStarter implements ApplicationListener<ContextRefreshedEvent
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        LOGGER.info("Start to init custom service...");
-        //any service need to be init can be add here
+        if (event.getApplicationContext().getParent() == null) {
+            LOGGER.info("Start to init custom service...");
+            //any service need to be init can be add here
+        }
+
     }
 }

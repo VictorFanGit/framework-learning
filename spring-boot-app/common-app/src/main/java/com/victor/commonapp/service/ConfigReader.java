@@ -8,14 +8,14 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ConfigReader {
-    @Value("${file.store.dir: /root/data}")   //冒号后面指定默认值
-    private int dataDir;
+    @Value("${file.store.dir}")   //冒号后面指定默认值
+    private String dataDir;
 
-    public int getDataDir() {
+    public String getDataDir() {
         return dataDir;
     }
 
-    public void setDataDir(int dataDir) {
+    public void setDataDir(String dataDir) {
         this.dataDir = dataDir;
     }
 }
